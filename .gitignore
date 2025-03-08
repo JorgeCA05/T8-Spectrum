@@ -13,3 +13,4 @@ poetry.lock
 .vscode/
 .idea/
 *.swp
+archivo_descargado
