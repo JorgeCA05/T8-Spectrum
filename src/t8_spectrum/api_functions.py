@@ -4,6 +4,7 @@ from struct import unpack
 from zlib import decompress
 
 import numpy as np
+from scipy.signal import butter, filtfilt
 
 
 def url_generator(dato, nombre, punto_de_med, modo_proc, año, mes, dia, hora, min, seg):
@@ -36,3 +37,12 @@ decodificador = {
     'zlib': zlib_to_float,
     'b64': b64_to_float
 }
+
+#Función para filtrar ski-slope
+#Basicamente elimina las la informacion de frecuencias inferiores a 'filtro'
+def filtrar_ski_slope(base, filtro, f_muestreo, orden=5):
+    nyquist = 0.5 * f_muestreo
+    frec_corte = filtro / nyquist
+    b, a = butter(orden, frec_corte, btype='high', analog=False)
+    y = filtfilt(b, a, base)
+    return y

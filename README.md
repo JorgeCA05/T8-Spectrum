@@ -8,9 +8,11 @@ En el entorno virtual necesitamos 2 librerías, request para solicitar la inform
 
 En 'main_script' encontraremos el archivo en el cual se hace uso de todos los paquetes creados para llevar a cabo el proyecto de comparación entre ambos espectros.
 
-Primero se importan las librerías pertinentes comentadas en la introducción, así como las creadas por nosotros para llevar acabo el proceso de generar la URL o decodificar la información devuelta por la API.
+Primero se importan las librerías pertinentes comentadas en la introducción, así como las creadas por nosotros para llevar acabo el proceso de generar la URL o decodificar la información devuelta por la API, así como distintos procesos de filtrado.
 
-Tras obtener la URL comprobamos que la request ha sido exitosa y descargamos el archivo. Lo decodificamos con la funcion 'decodificador' en el módulo api_functions y la representamos.
+Tras obtener las URL comprobamos que la request ha sido exitosa en cada solicitud y descargamos los archivos. Los decodificamos con la funcion 'decodificador' en el módulo api_functions y los representamos para ver la onda con la que tenemos que calcular nuestro espectro y el espectro que proporciona el T8 y así situarnos y poder empezar a trabajarlas (incluyéndolas en el gitignore).
+
+Una vez aplicado el filtro para evitar el ski-slope haremos uso de Fourier para calcular nuestro espectro.
 
 
 ##############################################     PAQUETES      ###################################################################
@@ -19,4 +21,6 @@ En el paquete t8_spectrum se encuentra el módulo api_functions, en el que he cr
 
 url_generator: Sirve sobre todo para tener una función que nos traduzca de UTC a timestamp y de paso te genera el link pasándole el resto de los datos.
 
-decodificador: Contiene tres funciones con el objetivo de leer la información recibida, cada una para uno de los tres tipos de formato en los que podemos solicitar la informacion modificando el link. Podríamos limitarnos a solicitar la información en un único tipo de formato siempre modificando la función 'url_generator' pero de esta forma aportamos sotenibilidad al proyecto a la vez que flexibilidad.
+decodificador: Contiene tres funciones con el objetivo de leer la información recibida, cada una para uno de los tres tipos de formato en los que podemos solicitar la informacion modificando el link. Podríamos limitarnos a solicitar la información en un único tipo de formato siempre modificando la función 'url_generator' pero de esta forma aportamos sostenibilidad al proyecto a la vez que flexibilidad.
+
+filtrar_ski_slope: Un filtro de paso alto para deshacernos del ski-slope y así poder mejorar la visibilidad de los espectros

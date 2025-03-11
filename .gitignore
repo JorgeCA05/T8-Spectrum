@@ -13,4 +13,5 @@ poetry.lock
 .vscode/
 .idea/
 *.swp
-archivo_descargado
+forma_de_onda
+T8_spectrum
