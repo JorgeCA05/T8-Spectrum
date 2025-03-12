@@ -14,6 +14,8 @@ Tras obtener las URL comprobamos que la request ha sido exitosa en cada solicitu
 
 Una vez aplicado el filtro para evitar el ski-slope haremos uso de Fourier para calcular nuestro espectro.
 
+Representamos ambos espectros en la misma gráfica para compararlos.
+
 
 ##############################################     PAQUETES      ###################################################################
 
@@ -23,4 +25,4 @@ url_generator: Sirve sobre todo para tener una función que nos traduzca de UTC 
 
 decodificador: Contiene tres funciones con el objetivo de leer la información recibida, cada una para uno de los tres tipos de formato en los que podemos solicitar la informacion modificando el link. Podríamos limitarnos a solicitar la información en un único tipo de formato siempre modificando la función 'url_generator' pero de esta forma aportamos sostenibilidad al proyecto a la vez que flexibilidad.
 
-filtrar_ski_slope: Un filtro de paso alto para deshacernos del ski-slope y así poder mejorar la visibilidad de los espectros
+filtrar_ski_slope: Un filtro de paso alto para deshacernos del ski-slope y así poder mejorar la visibilidad de los espectros(en desuso ya que modifica el resto de la onda y sustituido por un truncamientro de la parte de la onda con ski-slope)
