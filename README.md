@@ -1,28 +1,76 @@
-#############################################    INTRODUCCIÓN     #################################################################
+# Proyecto T8 Spectrum
 
-Este proyecto consiste en descargar datos de la forma de onda de un dispositivo T8 virtual a través de la API para calcular su espectro y compararlo con el espectro calculado por el propio T8. 
+## Introducción
 
-En el entorno virtual necesitamos 2 librerías, request para solicitar la información a la API y dotenv para hacer uso de variables de entorno ya que para acceder a la API necesitaremos introducir credenciales y obviamente no queremos publicarlas en github(imprescindible crear un archivo .gitignore para evitar que git suba el archivo .env donde se encuentran las credenciales)
+Este proyecto tiene como objetivo descargar datos de la forma de onda de un dispositivo **T8 virtual** a través de su API, calcular su espectro y compararlo con el espectro calculado por el propio T8.
 
-############################################  ARCHIVO DE EJECUCIÓN   ###############################################################  
+Para el entorno virtual, utilizamos las siguientes librerías:
 
-En 'main_script' encontraremos el archivo en el cual se hace uso de todos los paquetes creados para llevar a cabo el proyecto de comparación entre ambos espectros.
+- **requests**: Para realizar solicitudes a la API.
+- **dotenv**: Para manejar variables de entorno y evitar exponer credenciales sensibles en el código.
+- **numpy** y **matplotlib**: Para procesar los datos y visualizar los espectros.
 
-Primero se importan las librerías pertinentes comentadas en la introducción, así como las creadas por nosotros para llevar acabo el proceso de generar la URL o decodificar la información devuelta por la API, así como distintos procesos de filtrado.
+> **Nota:** Es imprescindible crear un archivo `.gitignore` para evitar que Git suba el archivo `.env`, donde se almacenan las credenciales.
 
-Tras obtener las URL comprobamos que la request ha sido exitosa en cada solicitud y descargamos los archivos. Los decodificamos con la funcion 'decodificador' en el módulo api_functions y los representamos para ver la onda con la que tenemos que calcular nuestro espectro y el espectro que proporciona el T8 y así situarnos y poder empezar a trabajarlas (incluyéndolas en el gitignore).
+---
 
-Una vez aplicado el filtro para evitar el ski-slope haremos uso de Fourier para calcular nuestro espectro.
+## Archivo de ejecución
 
-Representamos ambos espectros en la misma gráfica para compararlos.
+El script principal se encuentra en `main_script.py`, donde se utilizan todos los paquetes creados para llevar a cabo la comparación entre los espectros.
 
+### Flujo de trabajo:
 
-##############################################     PAQUETES      ###################################################################
+1. Importamos las librerías necesarias (tanto externas como internas del proyecto).
+2. Cargamos las credenciales desde variables de entorno con `dotenv`.
+3. Generamos las URLs necesarias para las solicitudes API mediante `url_generator`.
+4. Verificamos que las respuestas de la API sean exitosas y descargamos los datos.
+5. Decodificamos la información usando la función `decodificador` del módulo `api_functions`.
+6. Representamos la forma de onda descargada.
+7. Aplicamos un filtro de frecuencias entre **50 Hz y 2000 Hz**.
+8. Calculamos el espectro mediante la **Transformada de Fourier (FFT)** con ventana de Hanning y zero-padding.
+9. Comparamos ambos espectros en una misma gráfica.
 
-En el paquete t8_spectrum se encuentra el módulo api_functions, en el que he creado las funciones para generar las urls necesarias para hacer los request para el host dado (https://lzfs45.mirror.twave.io/lzfs45). Así como para leer los datos devueltos por la API:
+> **Nota:** Los archivos descargados deben incluirse en el `.gitignore` para evitar que sean subidos al repositorio.
 
-url_generator: Sirve sobre todo para tener una función que nos traduzca de UTC a timestamp y de paso te genera el link pasándole el resto de los datos.
+---
 
-decodificador: Contiene tres funciones con el objetivo de leer la información recibida, cada una para uno de los tres tipos de formato en los que podemos solicitar la informacion modificando el link. Podríamos limitarnos a solicitar la información en un único tipo de formato siempre modificando la función 'url_generator' pero de esta forma aportamos sostenibilidad al proyecto a la vez que flexibilidad.
+## Paquetes
 
-filtrar_ski_slope: Un filtro de paso alto para deshacernos del ski-slope y así poder mejorar la visibilidad de los espectros(en desuso ya que modifica el resto de la onda y sustituido por un truncamientro de la parte de la onda con ski-slope)
+El código se encuentra estructurado dentro del paquete `t8_spectrum`, que contiene distintos módulos para la gestión y procesamiento de datos:
+
+### `api_functions.py`
+
+- **`url_generator`**:
+  - Convierte **UTC** a **timestamp**.
+  - Genera automáticamente el enlace de solicitud a la API.
+- **`decodificador`**:
+  - Contiene tres funciones para leer la información en los distintos formatos disponibles en la API.
+  - Permite flexibilidad en el procesamiento de datos sin limitarse a un único formato.
+- **`filtrar_ski_slope`** *(en desuso)*:
+  - Filtro de paso alto para eliminar el ski-slope.
+  - Reemplazado por un método de truncamiento para evitar modificaciones no deseadas en la onda.
+
+---
+
+## Requisitos e instalación
+
+Para ejecutar el proyecto, asegúrate de tener Python y las dependencias necesarias instaladas.
+
+```bash
+pip install -r requirements.txt
+```
+
+Además, crea un archivo `.env` con las credenciales necesarias para acceder a la API:
+
+```
+T8_USER=tu_usuario
+T8_PASSWORD=tu_contraseña
+```
+## Mejoras futuras
+
+Algunas mejoras que se pueden implementar en el futuro:
+
+- Agregar manejo de excepciones para errores en la solicitud de la API de manera aislada a internet.
+- Posible migración a un sistema de clases
+- Obtener el factor de conversión para la wave desde la API para evitar cambios de magnitud bruscos
+- Agregar pruebas unitarias para validar la funcionalidad de `api_functions.py`.

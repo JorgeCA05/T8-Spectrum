@@ -35,7 +35,7 @@ raw = respuesta_json['data']
 # Llamamos al decodificador que usará una función u otra dependiendo del formato 
 # recibido (zint en este caso)
 wave = decodificador['zint'](raw)
-wave *= 0.0000238
+wave *= factor
 # Creamos un array que representará el eje del tiempo
 t = pylab.linspace(0, len(wave) / srate, len(wave))
 # Mostramos la forma de onda
