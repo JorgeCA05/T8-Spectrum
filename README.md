@@ -70,7 +70,7 @@ T8_PASSWORD=tu_contraseña
 
 Algunas mejoras que se pueden implementar en el futuro:
 
-- Agregar manejo de excepciones para errores en la solicitud de la API de manera aislada a internet.
-- Posible migración a un sistema de clases
-- Obtener el factor de conversión para la wave desde la API para evitar cambios de magnitud bruscos
-- Agregar pruebas unitarias para validar la funcionalidad de `api_functions.py`.
+- Agregar manejo de excepciones para errores en la solicitud de la API de manera aislada a internet usando pytest.
+- Obtener el factor de conversión para la wave desde la API para evitar cambios de magnitud y no buscarlo manualmente 'EN PROCESO'
+- Disminuir el número de inputs para generar las url 'HECHO'
+

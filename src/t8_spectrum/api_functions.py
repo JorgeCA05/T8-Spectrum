@@ -1,5 +1,5 @@
 from base64 import b64decode
-from datetime import UTC, datetime
+from datetime import UTC
 from struct import unpack
 from zlib import decompress
 
@@ -7,14 +7,12 @@ import numpy as np
 from scipy.signal import butter, filtfilt
 
 
-def url_generator(dato, nombre, punto_de_med, modo_proc, año, mes, dia, hora, min, seg):
-#pasamos de UTC a timestamp ya que lo requiere la URL
-    utc_time = datetime(año, mes, dia, hora, min, seg, tzinfo=UTC)
-#muy importante aplicar int para que devuelva un numero entero y no un punto flotante
-#ya que nos daría una URL errónea
+def url_generator(direccion, dato, nombre, punto_de_med, modo_proc, fecha_hora):
+    # Convertimos la fecha y hora a timestamp
+    utc_time = fecha_hora.replace(tzinfo=UTC)
     timestamp = int(utc_time.timestamp())
 
-    URL=f'https://lzfs45.mirror.twave.io/lzfs45/rest/{dato}/{nombre}/{punto_de_med}/{modo_proc}/{timestamp}'
+    URL = f'{direccion}{dato}/{nombre}/{punto_de_med}/{modo_proc}/{timestamp}'
 
     return URL
 
